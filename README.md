@@ -1,5 +1,5 @@
 # restful-web-service
-main
+REST API 개인스터디 프로젝트
 
 RESTfulAPI Study Project
 
