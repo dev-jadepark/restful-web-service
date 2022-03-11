@@ -1,6 +1,7 @@
 package com.jade.restfulwebservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,5 +31,11 @@ public class HelloWorldController {
     > - @Controller + @ResponseBody
     > - view를 갖지 않는 REST Data(JSON/XML)를 반환
      */
+
+    //@PathVariable 가변변수 형식 {s}에 데이터를 담는다.
+    @GetMapping("/hello-world-bean/path-variable/{name}")
+    public HelloWorldBean helloWorldBean(@PathVariable String name){
+        return new HelloWorldBean(String.format("Hello World, %s", name));
+    }
 
 }
