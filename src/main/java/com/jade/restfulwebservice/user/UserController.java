@@ -1,8 +1,11 @@
 package com.jade.restfulwebservice.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,11 +28,20 @@ public class UserController {
         return userDaoService.findOne(id);
     }
 
+    //상태코드 201
     @PostMapping("/users")
-    public void createUser(@RequestBody User user){   //@RequestBody, 매개변수에 유저 도메인을 body에 실어서 POST한다..
+    public ResponseEntity<User> createUser(@RequestBody User user){   //@RequestBody, 매개변수에 유저 도메인을 body에 실어서 POST한다..
         User savedUser = userDaoService.save(user);
+
+        //사용자에게 요청값을 반환
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()//현재 요청된 요청값을 사용한다라는 의미
+                .path("/{id}")//반환값
+                .buildAndExpand(savedUser.getId())
+                .toUri();   //URI형태로 변환
+        return ResponseEntity.created(location).build();
     }
 
     //매핑주소는 똑같아도 메서드에 따라 다른 결과를 만들어 낼 수 있다.
-
+    //REST에서 가장 안좋은 것이 get/post로만 하는 방식
+    //용도에 맞추어 설계하는 것이 가장 바람직하다.
 }
