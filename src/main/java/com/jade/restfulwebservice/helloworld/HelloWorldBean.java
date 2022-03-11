@@ -1,4 +1,4 @@
-package com.jade.restfulwebservice;
+package com.jade.restfulwebservice.helloworld;
 // lombok 빈클래스를 생성후 data 자동 생성 @Data
 
 import lombok.AllArgsConstructor;
