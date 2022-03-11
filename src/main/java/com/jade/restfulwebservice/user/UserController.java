@@ -1,9 +1,7 @@
 package com.jade.restfulwebservice.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +24,12 @@ public class UserController {
     public User retrieveUser(@PathVariable int id){
         return userDaoService.findOne(id);
     }
+
+    @PostMapping("/users")
+    public void createUser(@RequestBody User user){   //@RequestBody, 매개변수에 유저 도메인을 body에 실어서 POST한다..
+        User savedUser = userDaoService.save(user);
+    }
+
+    //매핑주소는 똑같아도 메서드에 따라 다른 결과를 만들어 낼 수 있다.
+
 }
