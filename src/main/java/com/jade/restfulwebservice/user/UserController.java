@@ -25,7 +25,13 @@ public class UserController {
     // GET /users/1 or /users/10
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id){
-        return userDaoService.findOne(id);
+        User user = userDaoService.findOne(id);
+
+        if(user == null){
+            throw new UserNotFoundException(String.format("ID[%s] not found", id)); //아이디가 없으면 예외 발생
+        }
+
+        return user;
     }
 
     //상태코드 201
