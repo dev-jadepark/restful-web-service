@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -36,7 +37,10 @@ public class UserController {
 
     //상태코드 201
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){   //@RequestBody, 매개변수에 유저 도메인을 body에 실어서 POST한다..
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+        //@RequestBody, 매개변수에 유저 도메인을 body에 실어서 POST한다..
+        //@Valid : 사용자로부터 /users POST 가 실행되면 Validation sync가 진행된다.
+        //User도메인에 @Size(min=2) 이기 때문에 이름에 N 한글자만 입력하게 되면 400번 Bad Request 발생
         User savedUser = userDaoService.save(user);
 
         //사용자에게 요청값을 반환
@@ -50,4 +54,13 @@ public class UserController {
     //매핑주소는 똑같아도 메서드에 따라 다른 결과를 만들어 낼 수 있다.
     //REST에서 가장 안좋은 것이 get/post로만 하는 방식
     //용도에 맞추어 설계하는 것이 가장 바람직하다.
+
+    @DeleteMapping("/users/{id}")   //200ok
+    public void deleteUser(@PathVariable int id){
+        User user = userDaoService.deleteById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+    }
 }
