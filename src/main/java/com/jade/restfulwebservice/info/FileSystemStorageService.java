@@ -3,11 +3,14 @@ package com.jade.restfulwebservice.info;
 import com.jade.restfulwebservice.util.FileuploadUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,21 +54,36 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Stream<Path> loadAll() {
-        return null;
+        try {
+            Path root = Paths.get(uploadPath);
+            return Files.walk(root,1).filter(Path -> !uploadPath.equals(root));
+        }catch (IOException e) {
+            throw new RuntimeException("Failed to read stored files", e);
+        }
     }
 
     @Override
     public Path load(String filename) {
-        return null;
+        return Paths.get(uploadPath).resolve(filename);
     }
 
     @Override
     public Resource loadAsResource(String filename) {
-        return null;
+        try{
+            Path file = load(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if(resource.exists() || resource.isReadable()){
+                return resource;
+            }else {
+                throw new RuntimeException("Could not read file :"+filename);
+            }
+        }catch (MalformedURLException e){
+            throw new RuntimeException("Could not read file :"+filename, e);
+        }
     }
 
     @Override
     public void deleteAll() {
-
+        FileSystemUtils.deleteRecursively(Paths.get(uploadPath).toFile());
     }
 }
