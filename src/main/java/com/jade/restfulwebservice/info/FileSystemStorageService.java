@@ -1,5 +1,6 @@
 package com.jade.restfulwebservice.info;
 
+import com.jade.restfulwebservice.util.FileuploadUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class FileSystemStorageService implements StorageService {
                 init();
             }
             try(InputStream inputStream = multipartFile.getInputStream()){
-                Files.copy(inputStream, root.resolve(multipartFile.getOriginalFilename()),
+                Files.copy(inputStream, root.resolve(FileuploadUtil.getUniqueFileName(multipartFile.getOriginalFilename())),
                         StandardCopyOption.REPLACE_EXISTING);
             }
         }catch (Exception e){
