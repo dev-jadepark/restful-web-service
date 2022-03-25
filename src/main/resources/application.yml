@@ -3,7 +3,13 @@ server:
 
 logging:
   level:
-    org.springframework: info
+    org.springframework: debug
 spring:
   messages:
     basename: messages
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: /Users/admin/spring_uploaded_files
