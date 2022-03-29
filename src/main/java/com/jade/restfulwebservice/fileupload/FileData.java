@@ -1,4 +1,4 @@
-package com.jade.restfulwebservice.info;
+package com.jade.restfulwebservice.fileupload;
 
 import lombok.Getter;
 import lombok.Setter;

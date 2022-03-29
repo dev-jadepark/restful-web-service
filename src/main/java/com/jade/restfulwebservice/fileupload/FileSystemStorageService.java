@@ -1,4 +1,4 @@
-package com.jade.restfulwebservice.info;
+package com.jade.restfulwebservice.fileupload;
 
 import com.jade.restfulwebservice.util.FileuploadUtil;
 import org.springframework.beans.factory.annotation.Value;

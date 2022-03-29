@@ -1,4 +1,4 @@
-package com.jade.restfulwebservice.info;
+package com.jade.restfulwebservice.fileupload;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/info")
-public class InfoController {
+@RequestMapping("/api/FileUpload")
+public class FileUploadController {
 
     @Autowired
     private StorageService storageService;
@@ -29,7 +29,7 @@ public class InfoController {
         return new ResponseEntity<>("",HttpStatus.OK);
     }
 
-    @GetMapping("/download")
+    @GetMapping("/serveFile")
     public ResponseEntity<Resource> serveFile(@RequestParam(value = "filename") String filename){
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok()
@@ -43,7 +43,7 @@ public class InfoController {
         return new ResponseEntity<>("",HttpStatus.OK);
     }
 
-    @GetMapping("/fileList")
+    @GetMapping("/getListFiles")
     public ResponseEntity<List<FileData>> getListFiles(){
         List<FileData> fileList = storageService.loadAll()
                 .map(path -> {
@@ -51,7 +51,7 @@ public class InfoController {
                     String filename = path.getFileName().toString();
                     fileData.setFilename(filename);
                     fileData.setUrl(MvcUriComponentsBuilder
-                            .fromMethodName(InfoController.class,"serveFile", filename).build().toString());
+                            .fromMethodName(FileUploadController.class,"serveFile", filename).build().toString());
                     try {
                         fileData.setSize(Files.size(path));
                     }catch (IOException e){

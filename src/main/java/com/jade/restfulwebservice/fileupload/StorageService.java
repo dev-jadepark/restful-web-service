@@ -1,4 +1,4 @@
-package com.jade.restfulwebservice.info;
+package com.jade.restfulwebservice.fileupload;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
