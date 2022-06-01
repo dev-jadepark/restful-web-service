@@ -1,9 +1,9 @@
 server:
-  port: 8088
+  port: 8080
 
 logging:
   level:
-    org.springframework: debug
+    org.springframework: info
 spring:
   messages:
     basename: messages
@@ -13,3 +13,8 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
       location: /Users/admin/spring_uploaded_files
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

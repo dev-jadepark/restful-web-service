@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -13,9 +16,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 //@JsonIgnoreProperties(value = {"password","ssn"})
-@JsonFilter("UserInfo") //프로그래밍 제어 필터링
+@NoArgsConstructor
+//@JsonFilter("UserInfo") //프로그래밍 제어 필터링
 public class User {
 
+    @Qualifier
     private Integer id;
 
     @Size(min=2, message = "Name은 2글자 이상 입력해 주세요.") //details에 message 반영된다.
